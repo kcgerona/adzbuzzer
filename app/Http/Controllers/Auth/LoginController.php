@@ -45,8 +45,11 @@ class LoginController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function showLoginForm()
+    public function showLoginForm(Request $request)
     {
+        if ($request->has('brand_id')) {
+            dd($request);
+        }
         return view('auth.login');
     }
     /**
@@ -58,7 +61,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        
+
         if ($request->has("return_to") && $request->has("brand_id")) {
             $key       = getenv("ZENDESK_KEY");
             $subdomain = getenv("ZENDESK_SUBDOMAIN");
