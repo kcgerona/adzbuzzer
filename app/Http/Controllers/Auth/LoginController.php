@@ -47,10 +47,9 @@ class LoginController extends Controller
      */
     public function showLoginForm(Request $request)
     {
-        if ($request->has('brand_id')) {
+        if ($request->has('redirect_to')) {
+            session(['redirect_to' => $request->redirect_to]);
         }
-        
-            dd($request);
         return view('auth.login');
     }
     /**
@@ -63,7 +62,7 @@ class LoginController extends Controller
     protected function authenticated(Request $request, $user)
     {
 
-        if ($request->has("return_to") && $request->has("brand_id")) {
+        if (session()->has("return_to")) {
             $key       = getenv("ZENDESK_KEY");
             $subdomain = getenv("ZENDESK_SUBDOMAIN");
             $now       = time();
@@ -77,7 +76,9 @@ class LoginController extends Controller
 
             $jwt = JWT::encode($token, $key);
             $location = "https://" . $subdomain . ".zendesk.com/access/jwt?jwt=" . $jwt;
-            $location .= "&return_to=" . urlencode($request->return_to);
+            $location .= "&return_to=" . urlencode(session('return_to'));
+
+            session()->forget('return_to');
 
             return redirect()->away($location);
         }
