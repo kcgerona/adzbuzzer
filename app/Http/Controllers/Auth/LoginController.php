@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use \Firebase\JWT\JWT;
 
 class LoginController extends Controller
 {
@@ -35,5 +36,46 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+
+    /**
+     * Show the application's login form.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function showLoginForm()
+    {
+        return view('auth.login');
+    }
+    /**
+     * The user has been authenticated.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  mixed  $user
+     * @return mixed
+     */
+    protected function authenticated(Request $request, $user)
+    {
+        $key       = getenv("ZENDESK_KEY");
+        $subdomain = getenv("ZENDESK_SUBDOMAIN");
+        $now       = time();
+
+        $token = array(
+          "jti"   => md5($now . rand()),
+          "iat"   => $now,
+          "name"  => $user->name,
+          "email" => $user->email
+        );
+
+        $jwt = JWT::encode($token, $key);
+        $location = "https://" . $subdomain . ".zendesk.com/access/jwt?jwt=" . $jwt;
+
+        if($request->has("return_to")) {
+          $location .= "&return_to=" . urlencode($request->return_to);
+        }
+
+        // Redirect
+        return redirect()->away($location);
     }
 }
