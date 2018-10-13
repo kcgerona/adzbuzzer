@@ -18,6 +18,11 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('test', function(){
+    \Session::put('test', 'Yayeee works');
+    return \Session::get('test');
+})
+
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
