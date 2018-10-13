@@ -74,11 +74,13 @@ class LoginController extends Controller
 
         if (session()->has("return_to")) {
 
-            $location = $service->buildRedirect(session('return_to'));
+            $location = $this->service->buildRedirect(session('return_to'));
 
             session()->forget('return_to');
 
             return redirect()->away($location);
         }
+
+        return false;
     }
 }
