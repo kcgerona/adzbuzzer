@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Contracts\Security\JWTSSO;
 use Firebase\JWT\JWT;
+use App\User;
 use Auth;
 
 class ZendeskService implements JWTSSO
@@ -67,7 +68,7 @@ class ZendeskService implements JWTSSO
     {
 
     	$now = time();
-    	$user = Auth::user();
+    	$user = User::find(Auth::user()->id);
 
     	$token = array(
                 "jti"   => bcrypt($now . rand()),
