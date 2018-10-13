@@ -58,25 +58,23 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        $key       = getenv("ZENDESK_KEY");
-        $subdomain = getenv("ZENDESK_SUBDOMAIN");
-        $now       = time();
+        if ($request->has("return_to") && $request->has("brand_id")) {
+            $key       = getenv("ZENDESK_KEY");
+            $subdomain = getenv("ZENDESK_SUBDOMAIN");
+            $now       = time();
 
-        $token = array(
-          "jti"   => md5($now . rand()),
-          "iat"   => $now,
-          "name"  => $user->name,
-          "email" => $user->email
-        );
+            $token = array(
+                "jti"   => bcrypt($now . rand()),
+                "iat"   => $now,
+                "name"  => $user->name,
+                "email" => $user->email
+            );
 
-        $jwt = JWT::encode($token, $key);
-        $location = "https://" . $subdomain . ".zendesk.com/access/jwt?jwt=" . $jwt;
-
-        if($request->has("return_to")) {
-          $location .= "&return_to=" . urlencode($request->return_to);
+            $jwt = JWT::encode($token, $key);
+            $location = "https://" . $subdomain . ".zendesk.com/access/jwt?jwt=" . $jwt;
+            $location .= "&return_to=" . urlencode($request->return_to);
+            
+            return redirect()->away($location);
         }
-        // dd($request,$user, $token, $jwt,$location);
-        // Redirect
-        return redirect()->away($location);
     }
 }
