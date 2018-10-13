@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Firebase\JWT\JWT;
+use App\Services\ZendeskService;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -23,6 +23,13 @@ class LoginController extends Controller
     use AuthenticatesUsers;
 
     /**
+     * App\Services\ZendeskService
+     *
+     * @var string
+     */
+    protected $service;
+
+    /**
      * Where to redirect users after login.
      *
      * @var string
@@ -34,9 +41,11 @@ class LoginController extends Controller
      *
      * @return void
      */
-    public function __construct()
+    public function __construct(ZendeskService $service)
     {
         $this->middleware('guest')->except('logout');
+
+        $this->service = $service;
     }
 
 
@@ -52,6 +61,7 @@ class LoginController extends Controller
         }
         return view('auth.login');
     }
+    
     /**
      * The user has been authenticated.
      *
@@ -63,20 +73,8 @@ class LoginController extends Controller
     {
 
         if (session()->has("return_to")) {
-            $key       = getenv("ZENDESK_KEY");
-            $subdomain = getenv("ZENDESK_SUBDOMAIN");
-            $now       = time();
 
-            $token = array(
-                "jti"   => bcrypt($now . rand()),
-                "iat"   => $now,
-                "name"  => $user->name,
-                "email" => $user->email
-            );
-
-            $jwt = JWT::encode($token, $key);
-            $location = "https://" . $subdomain . ".zendesk.com/access/jwt?jwt=" . $jwt;
-            $location .= "&return_to=" . urlencode(session('return_to'));
+            $location = $service->buildRedirect(session('return_to'));
 
             session()->forget('return_to');
 
