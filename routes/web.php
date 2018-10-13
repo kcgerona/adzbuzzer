@@ -19,8 +19,8 @@ Route::get('/', function () {
 });
 
 Route::get('test', function(){
-    \Session::put('test', 'Yayeee works');
-    return \Session::get('test');
+    session()->put('test', 'Yayeee works');
+    return [session()->get('test'), session()->has('test')];
 });
 
 Auth::routes();
