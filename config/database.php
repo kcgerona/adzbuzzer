@@ -1,5 +1,6 @@
 <?php
-if (getenv("ENVIRONMENT_PRODUCTION",'local') == 'heroku') {
+$isHeroku = getenv("ENVIRONMENT_PRODUCTION",'local') == 'heroku';
+if ($isHeroku) {
     
     $url = parse_url(getenv("CLEARDB_DATABASE_URL"));
 
@@ -50,10 +51,10 @@ return [
 
         'mysql' => [
             'driver' => 'mysql',
-            'host'      => $host,
-            'database'  => $database,
-            'username'  => $username,
-            'password'  => $password,
+            'host'      => $isHeroku ? $host : env('DB_HOST', '127.0.0.1'),
+            'database'  => $isHeroku ? $database : env('DB_DATABASE', 'forge'),
+            'username'  => $isHeroku ? $username : env('DB_USERNAME', 'forge'),
+            'password'  => $isHeroku ? $password : env('DB_PASSWORD', ''),
             'unix_socket' => env('DB_SOCKET', ''),
             'charset' => 'utf8mb4',
             'collation' => 'utf8mb4_unicode_ci',
