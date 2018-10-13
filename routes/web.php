@@ -21,7 +21,7 @@ Route::get('/', function () {
 Route::get('test', function(){
     \Session::put('test', 'Yayeee works');
     return \Session::get('test');
-})
+});
 
 Auth::routes();
 
