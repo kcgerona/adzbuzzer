@@ -71,7 +71,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-dd(session());
+dd(session()->all());
         if (session()->has("return_to")) {
 
             $location = $this->service->buildRedirect(session('return_to'));
