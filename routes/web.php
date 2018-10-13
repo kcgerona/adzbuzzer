@@ -10,6 +10,9 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
+if (env('ENVIRONMENT_PRODUCTION','local') === 'heroku') {
+    \URL::forceScheme('https');
+}
 
 Route::get('/', function () {
     return view('welcome');
