@@ -56,9 +56,8 @@ class LoginController extends Controller
      */
     public function showLoginForm(Request $request)
     {
-        if ($request->has('redirect_to')) {
-            dd($request->redirect_to);
-            session()->put('redirect_to',$request->redirect_to);
+        if ($request->has('return_to')) {
+            session()->put('return_to',$request->return_to);
         }
         return view('auth.login');
     }
@@ -81,7 +80,6 @@ class LoginController extends Controller
 
             return redirect()->away($location);
         }
-        dd(session()->all());
         return false;
     }
 }

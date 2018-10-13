@@ -18,14 +18,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('test', function(){
-    session()->put('test', 'Yayeee works');
-    return redirect()->route('test2');
-});
-Route::get('test2', function(){
-    return [session()->get('test'), session()->has('test')];
-})->name('test2');
-
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
