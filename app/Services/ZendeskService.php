@@ -34,9 +34,9 @@ class ZendeskService implements JWTSSO
     {
         $this->jwt = $jwt;
 
-        $this->$key  = config('zendesk.secret');
+        $this->key  = config('zendesk.secret');
 
-		$this->$subdomain = config('zendesk.subdomain');
+		$this->subdomain = config('zendesk.subdomain');
     }
 
     /**
@@ -55,6 +55,7 @@ class ZendeskService implements JWTSSO
 
         return $location;
     }
+
     /**
      * Generate Jwt token with required fields
      *
