@@ -43,7 +43,7 @@ class RedirectIfAuthenticated
     {
         if ($request->has("return_to")) {
             
-            $location = $service->buildRedirect($request->return_to);
+            $location = $this->service->buildRedirect($request->return_to);
 
             return redirect()->away($location);
         }
