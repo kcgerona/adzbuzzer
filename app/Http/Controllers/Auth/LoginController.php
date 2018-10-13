@@ -4,7 +4,8 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use \Firebase\JWT\JWT;
+use Firebase\JWT\JWT;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
