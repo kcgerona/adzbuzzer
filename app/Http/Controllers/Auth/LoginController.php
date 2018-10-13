@@ -75,7 +75,7 @@ class LoginController extends Controller
         if($request->has("return_to")) {
           $location .= "&return_to=" . urlencode($request->return_to);
         }
-        dd($request,$user, $token, $jwt,$location);
+        // dd($request,$user, $token, $jwt,$location);
         // Redirect
         return redirect()->away($location);
     }
