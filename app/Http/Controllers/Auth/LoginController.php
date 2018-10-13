@@ -56,7 +56,7 @@ class LoginController extends Controller
      */
     public function showLoginForm(Request $request)
     {
-        
+
         if ($request->has('redirect_to')) {
             session()->put('redirect_to',$request->redirect_to);
         }
@@ -75,13 +75,13 @@ class LoginController extends Controller
 
         if (session()->has("return_to")) {
 
-            $location = $this->service->buildRedirect(session('return_to'));
+            $location = $this->service->buildRedirect(session()->get('return_to'));
 
             session()->forget('return_to');
 
             return redirect()->away($location);
         }
-
+        dd(session()->all());
         return false;
     }
 }
