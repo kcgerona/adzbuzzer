@@ -50,8 +50,11 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="form-group row mb-0">
+                        @if(request()->has('brand_id') && request()->has('return_to'))
+                            <input type="hidden" name="brand_id" value="{{request()->has('brand_id')}}">
+                            <input type="hidden" name="return_to" value="{{request()->has('return_to')}}">
+                        @endif
+                        <div class="form-group row mb-0">   
                             <div class="col-md-8 offset-md-4">
                                 <button type="submit" class="btn btn-primary">
                                     {{ __('Login') }}

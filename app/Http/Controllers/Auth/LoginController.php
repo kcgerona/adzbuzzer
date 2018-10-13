@@ -58,7 +58,7 @@ class LoginController extends Controller
      */
     protected function authenticated(Request $request, $user)
     {
-        dd($request,$user);
+        
         if ($request->has("return_to") && $request->has("brand_id")) {
             $key       = getenv("ZENDESK_KEY");
             $subdomain = getenv("ZENDESK_SUBDOMAIN");
