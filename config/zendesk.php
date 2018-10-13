@@ -16,9 +16,9 @@ return [
     | Sub domain  
     |--------------------------------------------------------------------------
     |
-    | This is the subdomain of zendesk  https://SUBDOMAIN.zendesk.com
+    | This is the subdomain of zendesk  SUBDOMAIN.zendesk.com
     */
-    'subdomain' => env('ZENDESK_SUBDOMAIN','')
+    'subdomain' => env('ZENDESK_SUBDOMAIN',''),
     /*
     |--------------------------------------------------------------------------
     | Brand ID 
@@ -27,7 +27,5 @@ return [
     | 
     */
     'brand_id' => env('ZENDESK_BRAND_ID','')
-   
-    ],
-
+    
 ];
