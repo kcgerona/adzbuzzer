@@ -56,8 +56,8 @@ class LoginController extends Controller
      */
     public function showLoginForm(Request $request)
     {
-
         if ($request->has('redirect_to')) {
+            dd($request->redirect_to);
             session()->put('redirect_to',$request->redirect_to);
         }
         return view('auth.login');

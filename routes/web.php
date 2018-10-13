@@ -20,8 +20,11 @@ Route::get('/', function () {
 
 Route::get('test', function(){
     session()->put('test', 'Yayeee works');
-    return [session()->get('test'), session()->has('test')];
+    return redirect()->route('test2');
 });
+Route::get('test2', function(){
+    return [session()->get('test'), session()->has('test')];
+})->name('test2');
 
 Auth::routes();
 
