@@ -48,8 +48,9 @@ class LoginController extends Controller
     public function showLoginForm(Request $request)
     {
         if ($request->has('brand_id')) {
-            dd($request);
         }
+        
+            dd($request);
         return view('auth.login');
     }
     /**
